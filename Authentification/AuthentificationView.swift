@@ -22,11 +22,14 @@ struct AuthentificationView: View {
                 showAuthentificationView: $showAuthentificationView
             )
             
-            SignInWithAppleView(
-                type: .signIn,
-                style: .black, cornerRadius: 16)
-            .frame(maxWidth: .infinity)
-            .frame(height: 56)
+                        SignInWithAppleView(
+                            type: .signIn,
+                            style: .black, cornerRadius: 16,
+                            showAuthentificationView: $showAuthentificationView
+                        )
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+ 
             
             Text("OR")
                 .font(.title3)

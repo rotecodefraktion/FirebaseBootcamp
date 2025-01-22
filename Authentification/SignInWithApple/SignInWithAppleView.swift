@@ -8,47 +8,53 @@
 import SwiftUI
 import AuthenticationServices
 
-public struct SignInWithAppleView: View {
-    public let type: ASAuthorizationAppleIDButton.ButtonType
-    public let style: ASAuthorizationAppleIDButton.Style
-    public let cornerRadius: CGFloat
+//import FirebaseAuth
+
+
+
+@MainActor
+final class SignInWitAppleViewModel: ObservableObject {
     
-    public init(
-        type: ASAuthorizationAppleIDButton.ButtonType = .signIn,
-        style: ASAuthorizationAppleIDButton.Style = .black,
-        cornerRadius: CGFloat = 10
-    ) {
-        self.type = type
-        self.style = style
-        self.cornerRadius = cornerRadius
-    }
+    let signInWithAppleHelper = AppleSignHelper()
+    @Published var didSignInWithApple: Bool = false
     
-    public var body: some View {
-        ZStack {
-            Color.black.opacity(0.001)
-            SignInWithAppleViewRepresentable(type: type, style: style, cornerRadius: cornerRadius)
-                .disabled(true)
-        }
+    
+    func signInWithApple() async throws {
+        let helper = AppleSignHelper()
+        let tokens = try await helper.startSignInWithAppleFlow()
+        try await AuthentificationManager.shared.signInWithApple(tokens: tokens)
     }
 }
 
-private struct SignInWithAppleViewRepresentable: UIViewRepresentable {
-    let type: ASAuthorizationAppleIDButton.ButtonType
-    let style: ASAuthorizationAppleIDButton.Style
-    let cornerRadius: CGFloat
+struct SignInWithAppleView: View {
+    var type: ASAuthorizationAppleIDButton.ButtonType = .signIn
+    var style: ASAuthorizationAppleIDButton.Style = .black
+    var cornerRadius: CGFloat = 16
     
-    func makeUIView(context: Context) -> some UIView {
-        let button = ASAuthorizationAppleIDButton(type: type, style: style)
-        button.cornerRadius = cornerRadius
-        return button
-    }
+    @StateObject private var viewModel = SignInWitAppleViewModel()
+    @State private var signingIn: Bool = false
+    @Binding var showAuthentificationView: Bool
     
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        
-    }
-    
-    func makeCoordinator() {
-        
+    var body: some View {
+        Button(
+            action: {
+                Task {
+                    do {
+                        try await viewModel.signInWithApple()
+                        print("Sign in successful")
+                        showAuthentificationView = false
+                    } catch {
+                        print(error)
+                    }
+                    signingIn = false
+                    
+                }
+            },
+            label: {
+                SignInWithAppleViewRepresentable(type: type, style: style, cornerRadius: cornerRadius)
+                    .allowsHitTesting(false)
+            }
+        )
     }
 }
 
@@ -57,7 +63,8 @@ private struct SignInWithAppleViewRepresentable: UIViewRepresentable {
         VStack(spacing: 4) {
             SignInWithAppleView(
                 type: .signIn,
-                style: .black, cornerRadius: 30)
+                style: .black, cornerRadius: 30,
+                showAuthentificationView: .constant(true))
             .frame(height: 50)
         }
         .padding(40)
@@ -66,12 +73,16 @@ private struct SignInWithAppleViewRepresentable: UIViewRepresentable {
 
 #Preview("SignInWithAppleView_Rectangle") {
     ZStack {
-        VStack(spacing: 4) {
+        
+        Button {
+            //
+        } label: {
             SignInWithAppleView(
                 type: .signIn,
-                style: .black, cornerRadius: 16)
-                .frame(height: 56)
+                style: .black, cornerRadius: 16,
+                showAuthentificationView: .constant(true))
+            .frame(height: 56)
         }
-        
     }
+    .padding(40)
 }

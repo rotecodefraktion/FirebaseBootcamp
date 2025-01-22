@@ -10,6 +10,7 @@ import GoogleSignIn
 import GoogleSignInSwift
 import FirebaseAuth
 
+
 struct GoogleSignInResultModel {
     let idToken: String
     let accessToken: String
@@ -18,8 +19,8 @@ struct GoogleSignInResultModel {
     
 }
 
-enum SignInError: Error {
-    case noTopVC(message: String = "No TopVC found")
+enum GoogleSignInError: Error {
+    case noTopVC(message: String = "No view Controller found")
     case noIdToken(message: String = "No valid ID Token found")
     case noGIDSign(message: String = "No valid GIDSign")
 }
@@ -27,18 +28,17 @@ enum SignInError: Error {
 final class GoogleSignInHelper {
     
     @MainActor
-    func signIn() async throws -> GoogleSignInResultModel {
+    func signIn(uiViewController: UIViewController? = nil) async throws -> GoogleSignInResultModel {
         print("Starting sign in")
-        guard let topVC = self.topViewController() else {
-            
-            throw SignInError.noTopVC(message: "No TopVC found")
+        guard let topVC = uiViewController ?? topViewController() else {
+            throw GoogleSignInError.noTopVC(message: "No TopVC found")
         }
         print("topVC: \(topVC)")
         GIDSignIn.sharedInstance.signOut()
         let gidSignResults = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
         
         guard let idToken = gidSignResults.user.idToken?.tokenString else {
-            throw SignInError.noIdToken(message: "No valid ID Token found")
+            throw GoogleSignInError.noIdToken(message: "No valid ID Token found")
         }
         
         let name = gidSignResults.user.profile?.name ?? ""
@@ -61,10 +61,19 @@ final class GoogleSignInHelper {
         
     }
     
+}
+
+extension GoogleSignInHelper {
     @MainActor
     func topViewController(controller: UIViewController? = nil) -> UIViewController? {
         
-        let controller = controller ?? UIApplication.shared.keyWindow?.rootViewController
+        let controller = controller ?? UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .last { $0.isKeyWindow }?.rootViewController
+        
         
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
@@ -79,5 +88,4 @@ final class GoogleSignInHelper {
         }
         return controller
     }
-    
 }
