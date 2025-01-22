@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/swift,macos
-# Edit at https://www.toptal.com/developers/gitignore?templates=swift,macos
+# Created by https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpackagemanager,macos
+# Edit at https://www.toptal.com/developers/gitignore?templates=xcode,swift,swiftpackagemanager,macos
 
 ### macOS ###
 # General
@@ -8,7 +8,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -117,4 +118,25 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-# End of https://www.toptal.com/developers/gitignore/api/swift,macos
+### SwiftPackageManager ###
+Packages
+xcuserdata
+*.xcodeproj
+
+
+### Xcode ###
+
+## Xcode 8 and earlier
+
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# End of https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpackagemanager,macos
+
+GoogleService-Info.plist

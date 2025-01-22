@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6618C56E2D34824A0065E8E8 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6618C56D2D34824A0065E8E8 /* GoogleSignIn */; };
 		6618C5702D34824A0065E8E8 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6618C56F2D34824A0065E8E8 /* GoogleSignInSwift */; };
+		664DDA052D41B17B0019511E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 664DDA042D41B16E0019511E /* .gitignore */; };
 		66CB29262D2F07FC00187EC7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 66CB29252D2F07FC00187EC7 /* FirebaseAnalytics */; };
 		66CB29282D2F07FC00187EC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 66CB29272D2F07FC00187EC7 /* FirebaseAuth */; };
 		66CB29CA2D2F375800187EC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66CB29C92D2F375800187EC7 /* GoogleService-Info.plist */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		664DDA042D41B16E0019511E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		66CB28F32D2F072D00187EC7 /* FirebaseBootcamp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseBootcamp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66CB29032D2F072E00187EC7 /* FirebaseBootcampTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirebaseBootcampTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66CB290D2D2F072E00187EC7 /* FirebaseBootcampUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirebaseBootcampUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,7 @@
 		66CB28EA2D2F072D00187EC7 = {
 			isa = PBXGroup;
 			children = (
+				664DDA042D41B16E0019511E /* .gitignore */,
 				6618C5802D36559E0065E8E8 /* Helper */,
 				66BE8AA42D33F53B00BD535C /* Modals */,
 				66CB29C32D2F14C500187EC7 /* Alerts */,
@@ -289,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				664DDA052D41B17B0019511E /* .gitignore in Resources */,
 				66CB29CA2D2F375800187EC7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
