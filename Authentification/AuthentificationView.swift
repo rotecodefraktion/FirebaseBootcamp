@@ -21,15 +21,14 @@ struct AuthentificationView: View {
             SignInWithGoogleView(
                 showAuthentificationView: $showAuthentificationView
             )
+            SignInWithAppleView(
+                type: .signIn,
+                style: .black, cornerRadius: 16,
+                showAuthentificationView: $showAuthentificationView
+            )
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
             
-                        SignInWithAppleView(
-                            type: .signIn,
-                            style: .black, cornerRadius: 16,
-                            showAuthentificationView: $showAuthentificationView
-                        )
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
- 
             
             Text("OR")
                 .font(.title3)
@@ -37,6 +36,8 @@ struct AuthentificationView: View {
             
             SignInWithEmailView(
                 showAutentificationView: $showAuthentificationView)
+            
+            SignInAnonymousView(showAuthentificationView: $showAuthentificationView)
         }
         .frame(maxHeight: .infinity, alignment: .center)
         .padding(.horizontal,20)
@@ -45,5 +46,5 @@ struct AuthentificationView: View {
 }
 
 #Preview {
-        AuthentificationView(showAuthentificationView: .constant(true))
+    AuthentificationView(showAuthentificationView: .constant(true))
 }

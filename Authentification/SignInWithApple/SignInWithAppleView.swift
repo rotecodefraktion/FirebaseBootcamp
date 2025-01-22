@@ -8,24 +8,6 @@
 import SwiftUI
 import AuthenticationServices
 
-//import FirebaseAuth
-
-
-
-@MainActor
-final class SignInWitAppleViewModel: ObservableObject {
-    
-    let signInWithAppleHelper = AppleSignHelper()
-    @Published var didSignInWithApple: Bool = false
-    
-    
-    func signInWithApple() async throws {
-        let helper = AppleSignHelper()
-        let tokens = try await helper.startSignInWithAppleFlow()
-        try await AuthentificationManager.shared.signInWithApple(tokens: tokens)
-    }
-}
-
 struct SignInWithAppleView: View {
     var type: ASAuthorizationAppleIDButton.ButtonType = .signIn
     var style: ASAuthorizationAppleIDButton.Style = .black

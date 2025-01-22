@@ -13,17 +13,20 @@ struct AuthDataResultModel {
     let uid: String
     let email: String?
     let photoUrl: String?
+    let isAnonymous: Bool
     
     init(user: User) {
         self.uid = user.uid
         self.email = user.email
         self.photoUrl = user.photoURL?.absoluteString
+        self.isAnonymous = user.isAnonymous
     }
     
     init(uid: String = UUID().uuidString, email: String? = nil, photoUrl: String? = nil) {
         self.uid = uid
         self.email = email
         self.photoUrl = photoUrl
+        self.isAnonymous = true
     }
          
 }
@@ -41,12 +44,19 @@ final class AuthentificationManager {
         return AuthDataResultModel(user: user)
     }
     
+    func signIn(with credential: AuthCredential ) async throws -> AuthDataResultModel {
+        let authDataResult = try await Auth.auth().signIn(with: credential)
+        return AuthDataResultModel(user: authDataResult.user)
+    }
+    
     func signOut() throws {
         print( "Signing out...")
         try Auth.auth().signOut()
     }
     
 }
+
+// MARK: FireBase & Email Authentification
 
 extension AuthentificationManager {
     
@@ -81,6 +91,7 @@ extension AuthentificationManager {
     
 }
 
+// MARK: GoogleAuthentification
 extension AuthentificationManager {
    
     @discardableResult
@@ -90,7 +101,12 @@ extension AuthentificationManager {
         return try await signIn(with: credential)
         
     }
-    
+}
+
+
+// MARK: Apple Authentification
+
+extension AuthentificationManager {
     @discardableResult
     func signInWithApple(tokens: AppleSignInResult) async throws -> AuthDataResultModel {
         let credential = OAuthProvider.appleCredential(withIDToken: tokens.idToken,
@@ -98,10 +114,14 @@ extension AuthentificationManager {
         return try await signIn(with: credential)
         
     }
-    
-    func signIn(with credential: AuthCredential ) async throws -> AuthDataResultModel {
-        let authDataResult = try await Auth.auth().signIn(with: credential)
+}
+
+// MARK: Anonymous Authentification
+
+extension AuthentificationManager {
+    @discardableResult
+    func signInAnonymous() async throws -> AuthDataResultModel {
+        let authDataResult = try await Auth.auth().signInAnonymously()
         return AuthDataResultModel(user: authDataResult.user)
     }
-    
 }

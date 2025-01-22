@@ -55,9 +55,7 @@ struct SettingsView: View {
     @StateObject var viewModel = SettingsViewModel()
     
     @State private var alert: AnyAppAlert?
-    //@State private var showModal: Bool = false
     @State private var modalContent: ModalContent?
-    //@State private var oldPassword: String = ""
     @State private var newPassword: String = ""
     @State private var newEmail: String = ""
     @State private var buttonPressed: Bool = false
@@ -66,8 +64,10 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            if let email = try? AuthentificationManager.shared.getAuthenticatedUser().email {
-                Section(header: Text("User: \(email)")) {
+            if let _ = try?
+                AuthentificationManager.shared.getAuthenticatedUser().uid {
+                let email = try? AuthentificationManager.shared.getAuthenticatedUser().email
+                Section(header: Text("User: \(email ?? "Anonymous")")) {
                     signOutButton
                     
                 }
